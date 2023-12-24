@@ -19,7 +19,7 @@ class GC9A01 : public PollingComponent,
  public:
   GC9A01(int width, int height, int colstart, int rowstart, bool eightbitcolor);
   void dump_config() override;
-  void setup() override;8
+  void setup() override;
 
   void display();
 
