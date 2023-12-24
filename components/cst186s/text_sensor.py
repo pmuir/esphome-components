@@ -6,8 +6,8 @@ from esphome.components import i2c, text_sensor
 from esphome.const import CONF_ID, CONF_INTERRUPT_PIN, CONF_SDA, CONF_SCL
 
 
-cst816s_touchscreen_ns = cg.esphome_ns.namespace('cst816s_touchscreen')
-CST816STouchScreen = cst816s_touchscreen_ns.class_('CST816STouchScreen', text_sensor.TextSensor, cg.Component, i2c.I2CDevice)
+cst816s_ns = cg.esphome_ns.namespace('cst816s')
+CST816S = cst816s_ns.class_('CST816STouchScreen', text_sensor.TextSensor, cg.Component, i2c.I2CDevice)
 
 CONF_RTS_PIN = "rts_pin"
 pin_with_input_and_output_support = pins.internal_gpio_pin_number(
@@ -17,7 +17,7 @@ pin_with_input_and_output_support = pins.internal_gpio_pin_number(
 CONFIG_SCHEMA = text_sensor.TEXT_SENSOR_SCHEMA.extend(
     cv.Schema(
         {
-            cv.GenerateID(): cv.declare_id(CST816STouchScreen),
+            cv.GenerateID(): cv.declare_id(CST816S),
             cv.Required(CONF_INTERRUPT_PIN): cv.All(
                 pins.internal_gpio_input_pin_schema
             ),
