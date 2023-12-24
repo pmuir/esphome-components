@@ -49,10 +49,9 @@ CONFIG_SCHEMA = cv.All(
     .extend(spi.spi_device_schema()),
     cv.has_at_most_one_key(CONF_PAGES, CONF_LAMBDA),
 )
-
-
 async def setup_gc9a01(var, config):
-    await cg.register_component(var, config)
+    if cv.Version.parse(ESPHOME_VERSION) < cv.Version.parse("2023.12.0"):
+        await cg.register_component(var, config)
     await display.register_display(var, config)
 
     if CONF_RESET_PIN in config:
