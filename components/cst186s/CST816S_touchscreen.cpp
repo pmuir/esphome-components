@@ -10,15 +10,14 @@ unsigned long interval = 500UL;
 
 static const char *TAG = "cst816s.text_sensor";
 
-CST816S touch(I2C_SDA, I2C_SCL, TP_RST, TP_INT);	// sda, scl, rst, irq
-
 void CST816STouchScreen::setup() {
     ESP_LOGI("touchscreen", "Starting touchscreen");
     this->interrupt_pin_->pin_mode(gpio::FLAG_INPUT | gpio::FLAG_PULLUP);
     this->interrupt_pin_->setup();
     this->attach_interrupt_(this->interrupt_pin_, gpio::INTERRUPT_FALLING_EDGE);
     this->rts_pin_->setup();
-    touch.begin();
+    this->touch = new CST816S(this->sda_pin_, this->scl_pin_, this->rts_pin_, this->interrupt_pin_);
+    this->touch.begin();
 }
 
 void CST816STouchScreen::dump_config() { 
@@ -31,8 +30,8 @@ void CST816STouchScreen::dump_config() {
 void CST816STouchScreen::loop() {
     unsigned long currentMillis = millis();
 
-    if (touch.available()) {
-        if(touch.data.gestureID != 0){                          //ignore None gesture type
+    if (this->touch.available()) {
+        if(this->touch.data.gestureID != 0){                          //ignore None gesture type
             if(currentMillis - previousMillis > interval) {     //debounce
                 char buf[20];
                 sprintf(buf, "%s", touch.gesture());

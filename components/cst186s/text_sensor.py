@@ -3,13 +3,16 @@ import esphome.config_validation as cv
 
 from esphome import pins
 from esphome.components import i2c, text_sensor
-from esphome.const import CONF_ID, CONF_INTERRUPT_PIN
+from esphome.const import CONF_ID, CONF_INTERRUPT_PIN, CONF_SDA, CONF_SCL
 
 
 cst816s_touchscreen_ns = cg.esphome_ns.namespace('cst816s_touchscreen')
 CST816STouchScreen = cst816s_touchscreen_ns.class_('CST816STouchScreen', text_sensor.TextSensor, cg.Component, i2c.I2CDevice)
 
 CONF_RTS_PIN = "rts_pin"
+pin_with_input_and_output_support = pins.internal_gpio_pin_number(
+    {CONF_OUTPUT: True, CONF_INPUT: True}
+)
 
 CONFIG_SCHEMA = text_sensor.TEXT_SENSOR_SCHEMA.extend(
     cv.Schema(
@@ -19,7 +22,8 @@ CONFIG_SCHEMA = text_sensor.TEXT_SENSOR_SCHEMA.extend(
                 pins.internal_gpio_input_pin_schema
             ),
             cv.Required(CONF_RTS_PIN): pins.gpio_output_pin_schema,
-            
+            cv.Required(CONF_SDA): pin_with_input_and_output_support,
+            cv.Required(CONF_SCL): pin_with_input_and_output_support,
         }
     ).extend(i2c.i2c_device_schema(0x15))
 )
@@ -37,3 +41,7 @@ async def to_code(config):
     cg.add(var.set_interrupt_pin(interrupt_pin))
     rts_pin = await cg.gpio_pin_expression(config[CONF_RTS_PIN])
     cg.add(var.set_rts_pin(rts_pin))
+    sda_pin = await cg.gpio_pin_expression(config[CONF_SDA])
+    cg.add(var.set_sda_pin(sda_pin))
+    scl_pin = await cg.gpio_pin_expression(config[CONF_SCL])
+    cg.add(var.set_scl_pin(scl_pin))
