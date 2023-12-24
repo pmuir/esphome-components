@@ -15,11 +15,11 @@ class GC9A01 : public PollingComponent,
                public display::DisplayBuffer,
 #endif  // VERSION_CODE(2023, 12, 0)
                public spi::SPIDevice<spi::BIT_ORDER_MSB_FIRST, spi::CLOCK_POLARITY_LOW, spi::CLOCK_PHASE_LEADING,
-                                     spi::DATA_RATE_40MHZ> {
+                                     spi::DATA_RATE_0MHZ> {
  public:
   GC9A01(int width, int height, int colstart, int rowstart, bool eightbitcolor);
   void dump_config() override;
-  void setup() override;
+  void setup() override;8
 
   void display();
 
