@@ -3,8 +3,8 @@
 #include "CST816S.h"
 #define I2C_SDA 6
 #define I2C_SCL 7
-#define TP_RST 5
-#define TP_INT 13
+#define TP_RST 13
+#define TP_INT 5
 
 namespace esphome {
 namespace cst816s_touchscreen {
