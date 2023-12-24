@@ -6,7 +6,7 @@ from esphome.components import i2c, text_sensor
 from esphome.const import CONF_ID, CONF_INTERRUPT_PIN, CONF_SDA, CONF_SCL
 
 
-cst816s_touchscreen_ns = cg.esphome_ns.namespace('cst816s')
+cst816s_touchscreen_ns = cg.esphome_ns.namespace('cst816s_touchscreen')
 CST816STouchScreen = cst816s_touchscreen_ns.class_('CST816STouchScreen', text_sensor.TextSensor, cg.Component, i2c.I2CDevice)
 
 CONF_RTS_PIN = "rts_pin"
