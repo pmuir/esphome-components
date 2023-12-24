@@ -12,6 +12,7 @@ from esphome.const import (
     CONF_WIDTH,
     CONF_HEIGHT,
 )
+from esphome.const import __version__ as ESPHOME_VERSION
 
 CODEOWNERS = ["@4cello"]
 # adapted from https://github.com/PaintYourDragon/Adafruit_GC9A01A
